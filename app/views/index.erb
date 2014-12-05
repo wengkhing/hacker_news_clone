@@ -1,0 +1,24 @@
+<div class="container">
+  <ol>
+    <% @posts.each do |post| %>
+      <li>
+        <span class="post_title"><a href=<%= post.url %>><%= post.title %></a> <span class="comhead">(<%= post.url.match(/(\w+\.\w+)/) %>)</span></span><br>
+        <span class="post_subtitle">by <a href='/profile/<%= post.user.id %>'><%= post.user.username %></a> at
+            <% t = (Time.now - post.created_at) %>
+              <% if t < 3600 %>
+                <%= t / 60 %> minutes ago
+              <% elsif t > 3600 && t < 86400 %>
+                about <%= (t / (60 * 60)).round %> hours ago
+              <% end %>
+              <span class="comm_num"> |
+                <% if post.comments.count == 0 %>
+                  <a href="/comment/<%= post.id %>">discuss</a>
+                <% else %>
+                  <a href="/comment/<%= post.id %>"><%= post.comments.count %> comments</a>
+                <% end %>
+              </span>
+          </span>
+      </li>
+    <% end %>
+  </ol>
+</div>

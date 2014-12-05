@@ -1,0 +1,36 @@
+<div class="container">
+  <span class="post_title"><a href=<%= @post.url %>><%= @post.title %></a> <span class="comhead">(<%= @post.url.match(/(\w+\.\w+)/) %>)</span></span><br>
+  <span class="post_subtitle">by <a href='/profile/<%= @post.user.id %>'><%= @post.user.username %></a> at
+      <% t = (Time.now - @post.created_at) %>
+        <% if t < 3600 %>
+          <%= t / 60 %> minutes ago
+        <% elsif t > 3600 && t < 86400 %>
+          about <%= (t / (60 * 60)).round %> hours ago
+        <% end %>
+        <span class="comm_num"> |
+          <% if @post.comments.count == 0 %>
+            <a href="/">discuss</a>
+          <% else %>
+            <a href="/comment/<%= @post.id %>"><%= @post.comments.count %> comments</a>
+          <% end %>
+        </span>
+    </span>
+
+  <ul class="comment_list">
+    <li>
+      <% if login? %>
+        <form action="/comment/<%= @post.id %>" method = "post">
+          <textarea name="body" placeholder="Comment here"></textarea><br>
+          <input type="submit" value="Comment">
+        </form>
+      <% end %>
+    </li>
+    <% @post.comments.each do |c|%>
+    <li>
+      <span class="post_subtitle"><a href="/profile/<%=c.user.id%>"><%= c.user.username %></a></span><br>
+      <span class="post_content"><%=c.body%></span>
+    </li>
+    <% end %>
+
+  </ul>
+</div>
