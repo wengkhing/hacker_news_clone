@@ -47,3 +47,15 @@ post '/comment/:id' do
   Comment.create(body: params[:body], post: Post.find(params[:id]), user: User.where(username: session[:user]).first)
   redirect "/comment/#{params[:id]}"
 end
+
+get '/upvote/post/:id' do
+  post = Post.find(params[:id])
+  PostVoting.create(post: post, user: User.where(username: session[:user]).first)
+  redirect '/'
+end
+
+get '/upvote/comment/:id' do
+  comment = Comment.find(params[:id])
+  CommentVoting.create(comment: comment, user: User.where(username: session[:user]).first)
+  redirect "/comment/#{params[:id]}"
+end

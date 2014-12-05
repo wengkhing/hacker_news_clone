@@ -3,7 +3,7 @@
   <span class="post_subtitle">by <a href='/profile/<%= @post.user.id %>'><%= @post.user.username %></a> at
       <% t = (Time.now - @post.created_at) %>
         <% if t < 3600 %>
-          <%= t / 60 %> minutes ago
+          <%= (t / 60).round %> minutes ago
         <% elsif t > 3600 && t < 86400 %>
           about <%= (t / (60 * 60)).round %> hours ago
         <% end %>
@@ -27,7 +27,12 @@
     </li>
     <% @post.comments.each do |c|%>
     <li>
-      <span class="post_subtitle"><a href="/profile/<%=c.user.id%>"><%= c.user.username %></a></span><br>
+      <span class="post_subtitle">
+        <a href="/profile/<%=c.user.id%>"><%= c.user.username %></a> |
+        <%=c.comment_votings.count %> points |
+        <% if %>
+        <a href="/upvote/comment/<%= c.id %>">Upvote This!</a>
+      </span><br>
       <span class="post_content"><%=c.body%></span>
     </li>
     <% end %>
