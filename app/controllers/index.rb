@@ -54,6 +54,13 @@ get '/upvote/post/:id' do
   redirect '/'
 end
 
+get '/unvote/post/:id' do
+  post = Post.find(params[:id])
+  pv = PostVoting.where(post_id: post.id, user_id: User.where(username: session[:user]).first.id).first
+  pv.destroy
+  redirect '/'
+end
+
 get '/upvote/comment/:id' do
   comment = Comment.find(params[:id])
   CommentVoting.create(comment: comment, user: User.where(username: session[:user]).first)

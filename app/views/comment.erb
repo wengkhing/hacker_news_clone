@@ -30,7 +30,6 @@
       <span class="post_subtitle">
         <a href="/profile/<%=c.user.id%>"><%= c.user.username %></a> |
         <%=c.comment_votings.count %> points |
-        <% if %>
         <a href="/upvote/comment/<%= c.id %>">Upvote This!</a>
       </span><br>
       <span class="post_content"><%=c.body%></span>

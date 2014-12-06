@@ -18,7 +18,7 @@
                 <% end %> |
                 <% if login? %>
                   <% if PostVoting.where(post_id: post.id, user_id: User.where(username: session[:user]).first.id).count > 0 %>
-                    <a href="">Unvote</a>
+                    <a href="/unvote/post/<%= post.id %>">Unvote</a>
                   <% else %>
                     <a href="/upvote/post/<%= post.id %>">Upvote This!</a>
                   <% end %>
